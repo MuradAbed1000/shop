@@ -19,52 +19,51 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<HomeViewModel>(
       init: HomeViewModel(),
-      builder:(controller)=>controller.loading.value?Center(child: CircularProgressIndicator()): Scaffold(
-        body: Container(
-          padding: const EdgeInsets.only(top: 100, left: 20, right: 20),
-          child: ListView(
-              children: [
-                const _SearchTextFormField(),
-                const SizedBox(
-                  height: 30,
-                ),
-                CustomText(
-                  text: 'Categories',
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                _ListViewCategory(nams: nams),
-                const SizedBox(
-                  height: 40,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      builder: (controller) => controller.loading.value
+          ? Center(child: CircularProgressIndicator())
+          : Scaffold(
+              body: Container(
+                padding: const EdgeInsets.only(top: 100, left: 20, right: 20),
+                child: ListView(
                   children: [
-                    CustomText(
-                      text: 'Best Selling',
-                      fontsize: 18,
+                    const _SearchTextFormField(),
+                    const SizedBox(
+                      height: 30,
                     ),
                     CustomText(
-                      text: 'See all',
-                      fontsize: 16,
+                      text: 'Categories',
                     ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    _ListViewCategory(nams: nams),
+                    const SizedBox(
+                      height: 40,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CustomText(
+                          text: 'Best Selling',
+                          fontsize: 18,
+                        ),
+                        CustomText(
+                          text: 'See all',
+                          fontsize: 16,
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    _ListViewProducts(nams: nams),
                   ],
                 ),
-                SizedBox(
-                  height: 30,
-                ),
-                _ListViewProducts(nams: nams),
-              ],
-            
-          ),
-        ),
-      ),
+              ),
+            ),
     );
   }
 }
-
-
 
 class _ListViewProducts extends StatelessWidget {
   const _ListViewProducts({
@@ -76,57 +75,60 @@ class _ListViewProducts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<HomeViewModel>(
-      builder:(controller) =>  Container(
+      builder: (controller) => Container(
         height: 350,
         child: ListView.separated(
           itemCount: controller.productModel.length,
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index) {
-            return Container(
-              width: MediaQuery.of(context).size.width * .4,
-              child: Column(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        color: Colors.grey.shade100),
-                    child: Container(
-                        height: 190,
-                        width: MediaQuery.of(context).size.width * .4,
-                        child: Image.network(
-                          '${controller.productModel[index].image}',
-                          fit: BoxFit.fill,
-                        )),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  CustomText(
-                    text: controller.productModel[index].name,
-                    alignment: Alignment.bottomLeft,
-                  ),
-                  SizedBox(height: 10,),
-                  
-                   CustomText(
+            return GestureDetector(
+              onTap: () {
+                Get.to(DetailsView(model: controller.productModel[index],));
+              },
+              child: Container(
+                width: MediaQuery.of(context).size.width * .4,
+                child: Column(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          color: Colors.grey.shade100),
+                      child: Container(
+                          height: 190,
+                          width: MediaQuery.of(context).size.width * .4,
+                          child: Image.network(
+                            '${controller.productModel[index].image}',
+                            fit: BoxFit.fill,
+                          )),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    CustomText(
+                      text: controller.productModel[index].name,
+                      alignment: Alignment.bottomLeft,
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    CustomText(
                       text: controller.productModel[index].descripation,
                       alignment: Alignment.bottomLeft,
                       color: Colors.grey,
                       maxLine: 1,
                       overflow: TextOverflow.ellipsis,
-                    
                     ),
-                
-                  
-                  SizedBox(
-                    height: 20,
-                  ),
-                  CustomText(
-                    text: '\$ ${controller.productModel[index].price}',
-                    alignment: Alignment.bottomLeft,
-                    color: primaryColor,
-                    fontsize: 18,
-                  ),
-                ],
+                    SizedBox(
+                      height: 20,
+                    ),
+                    CustomText(
+                      text: '\$ ${controller.productModel[index].price}',
+                      alignment: Alignment.bottomLeft,
+                      color: primaryColor,
+                      fontsize: 18,
+                    ),
+                  ],
+                ),
               ),
             );
           },
@@ -152,7 +154,7 @@ class _ListViewCategory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<HomeViewModel>(
-      builder:(controller)=> Container(
+      builder: (controller) => Container(
         height: 100,
         child: ListView.separated(
           itemCount: controller.categoryModel.length,
@@ -169,7 +171,8 @@ class _ListViewCategory extends StatelessWidget {
                         color: Colors.grey.withOpacity(0.1),
                         spreadRadius: 5,
                         blurRadius: 7,
-                        offset: const Offset(0, 1), // changes position of shadow
+                        offset:
+                            const Offset(0, 1), // changes position of shadow
                       ),
                     ],
                   ),
@@ -177,7 +180,8 @@ class _ListViewCategory extends StatelessWidget {
                   width: 60,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                  child: Image.network('${controller.categoryModel[index].image}'),
+                    child: Image.network(
+                        '${controller.categoryModel[index].image}'),
                   ),
                 ),
                 const SizedBox(

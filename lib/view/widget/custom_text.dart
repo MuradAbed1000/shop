@@ -10,6 +10,7 @@ class CustomText extends StatelessWidget {
   final GestureTapCallback? onTap;
   final TextOverflow? overflow;
   final int? maxLine;
+  final double? spaceLine;
   CustomText({
     Key? key,
     this.text,
@@ -19,7 +20,9 @@ class CustomText extends StatelessWidget {
     this.fontWeight,
     this.onTap,
     this.height,
-    this.overflow = TextOverflow.clip, this.maxLine,
+    this.overflow = TextOverflow.clip,
+    this.maxLine,
+   this.spaceLine=1,
   }) : super(key: key);
 
   @override
@@ -32,7 +35,11 @@ class CustomText extends StatelessWidget {
         child: Text(
           text!,
           style: TextStyle(
-              fontWeight: fontWeight, fontSize: fontsize, color: color),
+        
+              height:spaceLine,
+              fontWeight: fontWeight,
+              fontSize: fontsize,
+              color: color),
           overflow: overflow,
           maxLines: maxLine,
         ),
