@@ -105,18 +105,18 @@ class _ListViewProducts extends StatelessWidget {
                     text: controller.productModel[index].name,
                     alignment: Alignment.bottomLeft,
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Expanded(
-                    child: CustomText(
+                  SizedBox(height: 10,),
+                  
+                   CustomText(
                       text: controller.productModel[index].descripation,
                       alignment: Alignment.bottomLeft,
                       color: Colors.grey,
+                      maxLine: 1,
+                      overflow: TextOverflow.ellipsis,
                     
                     ),
                 
-                  ),
+                  
                   SizedBox(
                     height: 20,
                   ),
