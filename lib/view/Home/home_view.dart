@@ -1,5 +1,5 @@
+
 import 'package:ecommerceend/constance.dart';
-import 'package:ecommerceend/core/view_model/control_view_model.dart';
 import 'package:ecommerceend/core/view_model/home_view_model.dart';
 import 'package:ecommerceend/view/widget/custom_text.dart';
 import 'package:flutter/material.dart';
@@ -8,150 +8,88 @@ import 'package:get/get.dart';
 import 'details_view.dart';
 
 class HomeView extends StatelessWidget {
-  final List<String> nams = <String>[
+  final List<String> names = <String>[
+    'men',
     's',
-    'sw',
-    'd',
-    'sd',
-    'qs',
+    's',
+    's',
+    's',
+    's',
+    's',
   ];
+
   @override
   Widget build(BuildContext context) {
     return GetBuilder<HomeViewModel>(
-      builder:(controller)=>controller.loading.value?Center(child: CircularProgressIndicator()): Scaffold(
-        body: Container(
-          padding: const EdgeInsets.only(top: 100, left: 20, right: 20),
-          child: ListView(
-              children: [
-                const _SearchTextFormField(),
-                const SizedBox(
-                  height: 30,
+      init: HomeViewModel(),
+      builder: (controller) => controller.loading.value
+          ? Center(child: CircularProgressIndicator())
+          : Scaffold(
+              body: SingleChildScrollView(
+                child: Container(
+                  padding: EdgeInsets.only(top: 100, left: 20, right: 20),
+                  child: Column(
+                    children: [
+                      _searchTextFormField(),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      CustomText(
+                        text: "Categories",
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      _listViewCategory(),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          CustomText(
+                            text: "Best Selling",
+                            fontsize: 18,
+                          ),
+                          CustomText(
+                            text: "See all",
+                            fontsize: 16,
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      _listViewProducts(),
+                    ],
+                  ),
                 ),
-                CustomText(
-                  text: 'Categories',
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                _ListViewCategory(nams: nams),
-                const SizedBox(
-                  height: 40,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CustomText(
-                      text: 'Best Selling',
-                      fontsize: 18,
-                    ),
-                    CustomText(
-                      text: 'See all',
-                      fontsize: 16,
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                _ListViewProducts(nams: nams),
-              ],
-            
+              ),
+            ),
+    );
+  }
+
+  Widget _searchTextFormField() {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        color: Colors.grey.shade200,
+      ),
+      child: TextFormField(
+        decoration: InputDecoration(
+          border: InputBorder.none,
+          prefixIcon: Icon(
+            Icons.search,
+            color: Colors.black,
           ),
         ),
       ),
     );
   }
-}
 
-
-
-class _ListViewProducts extends StatelessWidget {
-  const _ListViewProducts({
-    Key? key,
-    required this.nams,
-  }) : super(key: key);
-
-  final List<String> nams;
-  @override
-  Widget build(BuildContext context) {
+  Widget _listViewCategory() {
     return GetBuilder<HomeViewModel>(
-      builder:(controller) =>  Container(
-        height: 350,
-        child: ListView.separated(
-          itemCount: controller.productModel.length,
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (context, index) {
-            return Container(
-              width: MediaQuery.of(context).size.width * .4,
-              child: Column(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        color: Colors.grey.shade100),
-                    child: Container(
-                        height: 190,
-                        width: MediaQuery.of(context).size.width * .4,
-                        child: Image.network(
-                          '${controller.productModel[index].image}',
-                          fit: BoxFit.fill,
-                        )),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  CustomText(
-                    text: controller.productModel[index].name,
-                    alignment: Alignment.bottomLeft,
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Expanded(
-                    child: CustomText(
-                      text: controller.productModel[index].descripation,
-                      alignment: Alignment.bottomLeft,
-                      color: Colors.grey,
-                    
-                    ),
-                
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  CustomText(
-                    text: '\$ ${controller.productModel[index].price}',
-                    alignment: Alignment.bottomLeft,
-                    color: primaryColor,
-                    fontsize: 18,
-                  ),
-                ],
-              ),
-            );
-          },
-          separatorBuilder: (BuildContext context, int index) {
-            return const SizedBox(
-              width: 20,
-            );
-          },
-        ),
-      ),
-    );
-  }
-}
-
-class _ListViewCategory extends StatelessWidget {
-  const _ListViewCategory({
-    Key? key,
-    required this.nams,
-  }) : super(key: key);
-
-  final List<String> nams;
-
-  @override
-  Widget build(BuildContext context) {
-    return GetBuilder<HomeViewModel>(
-      builder:(controller)=> Container(
+      builder: (controller) => Container(
         height: 100,
         child: ListView.separated(
           itemCount: controller.categoryModel.length,
@@ -161,61 +99,99 @@ class _ListViewCategory extends StatelessWidget {
               children: [
                 Container(
                   decoration: BoxDecoration(
-                    color: Colors.white,
                     borderRadius: BorderRadius.circular(50),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.1),
-                        spreadRadius: 5,
-                        blurRadius: 7,
-                        offset: const Offset(0, 1), // changes position of shadow
-                      ),
-                    ],
+                    color: Colors.grey.shade100,
                   ),
                   height: 60,
                   width: 60,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                  child: Image.network('${controller.categoryModel[index].image}'),
+                    child: Image.network('${controller.categoryModel[index].image}'),
                   ),
                 ),
-                const SizedBox(
+                SizedBox(
                   height: 20,
                 ),
                 CustomText(
                   text: controller.categoryModel[index].name,
-                )
+                ),
               ],
             );
           },
-          separatorBuilder: (BuildContext context, int index) {
-            return const SizedBox(
-              width: 20,
-            );
-          },
+          separatorBuilder: (context, index) => SizedBox(
+            width: 20,
+          ),
         ),
       ),
     );
   }
-}
 
-class _SearchTextFormField extends StatelessWidget {
-  const _SearchTextFormField({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20), color: Colors.grey.shade200),
-      child: TextFormField(
-        decoration: const InputDecoration(
-            border: InputBorder.none,
-            prefixIcon: Icon(
-              Icons.search,
-              color: Colors.black,
-            )),
+  Widget _listViewProducts() {
+    return GetBuilder<HomeViewModel>(
+      builder: (controller) => Container(
+        height: 350,
+        child: ListView.separated(
+          itemCount: controller.productModel.length,
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (context, index) {
+            return GestureDetector(
+              onTap: () {
+                Get.to(DetailsView(
+                  model: controller.productModel[index],
+                ));
+              },
+              child: Container(
+                width: MediaQuery.of(context).size.width * .4,
+                child: Column(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                        color: Colors.grey.shade100,
+                      ),
+                      child: Container(
+                          height: 220,
+                          width: MediaQuery.of(context).size.width * .4,
+                          child: Image.network(
+                            '${controller.productModel[index].image}',
+                            fit: BoxFit.fill,
+                          )),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    CustomText(
+                      text: controller.productModel[index].name,
+                      alignment: Alignment.bottomLeft,
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Expanded(
+                      child: CustomText(
+                        text: controller.productModel[index].descripation,
+                        color: Colors.grey,
+                        alignment: Alignment.bottomLeft,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    CustomText(
+                      text: controller.productModel[index].price.toString() +
+                          " \$",
+                      color: primaryColor,
+                      alignment: Alignment.bottomLeft,
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+          separatorBuilder: (context, index) => SizedBox(
+            width: 20,
+          ),
+        ),
       ),
     );
   }

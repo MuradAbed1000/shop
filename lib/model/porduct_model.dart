@@ -1,7 +1,8 @@
 import 'package:ecommerceend/helper/extenstion.dart';
+import 'package:flutter/cupertino.dart';
 
 class ProductModel {
-  String? name, image, descripation, color, sized, price;
+  var name, image, descripation, color, sized, price;
   ProductModel(
       {this.name,
       this.image,
