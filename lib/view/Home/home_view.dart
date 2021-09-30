@@ -83,7 +83,9 @@ class _ListViewProducts extends StatelessWidget {
           itemBuilder: (context, index) {
             return GestureDetector(
               onTap: () {
-                Get.to(DetailsView(model: controller.productModel[index],));
+                Get.to(DetailsView(
+                  model: controller.productModel[index],
+                ));
               },
               child: Container(
                 width: MediaQuery.of(context).size.width * .4,
