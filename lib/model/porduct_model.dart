@@ -17,7 +17,7 @@ class ProductModel {
     name = map['name'];
     image = map['image'];
     descripation = map['descripation'];
-    color = HexColor.fromHex(map['color']) as String?;
+    color = map['color'];
     sized = map['sized'];
     price = map['price'];
   }

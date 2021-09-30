@@ -74,60 +74,67 @@ class _ListViewProducts extends StatelessWidget {
   final List<String> nams;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 350,
-      child: ListView.separated(
-        itemCount: nams.length,
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, idex) {
-          return Container(
-            width: MediaQuery.of(context).size.width * .4,
-            child: Column(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      color: Colors.grey.shade100),
-                  child: Container(
-                      height: 190,
-                      width: MediaQuery.of(context).size.width * .4,
-                      child: Image.asset(
-                        'assets/images/Image.png',
-                        fit: BoxFit.fill,
-                      )),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                CustomText(
-                  text: 'Leather Wristwatch',
-                  alignment: Alignment.bottomLeft,
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                CustomText(
-                  text: 'Tag Heuer',
-                  alignment: Alignment.bottomLeft,
-                  color: Colors.grey,
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                CustomText(
-                  text: '\$ ${700}',
-                  alignment: Alignment.bottomLeft,
-                  color: primaryColor,
-                ),
-              ],
-            ),
-          );
-        },
-        separatorBuilder: (BuildContext context, int index) {
-          return const SizedBox(
-            width: 20,
-          );
-        },
+    return GetBuilder<HomeViewModel>(
+      builder:(controller) =>  Container(
+        height: 350,
+        child: ListView.separated(
+          itemCount: controller.productModel.length,
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (context, index) {
+            return Container(
+              width: MediaQuery.of(context).size.width * .4,
+              child: Column(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                        color: Colors.grey.shade100),
+                    child: Container(
+                        height: 190,
+                        width: MediaQuery.of(context).size.width * .4,
+                        child: Image.network(
+                          '${controller.productModel[index].image}',
+                          fit: BoxFit.fill,
+                        )),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  CustomText(
+                    text: controller.productModel[index].name,
+                    alignment: Alignment.bottomLeft,
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Expanded(
+                    child: CustomText(
+                      text: controller.productModel[index].descripation,
+                      alignment: Alignment.bottomLeft,
+                      color: Colors.grey,
+                    
+                    ),
+                
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  CustomText(
+                    text: '\$ ${controller.productModel[index].price}',
+                    alignment: Alignment.bottomLeft,
+                    color: primaryColor,
+                    fontsize: 18,
+                  ),
+                ],
+              ),
+            );
+          },
+          separatorBuilder: (BuildContext context, int index) {
+            return const SizedBox(
+              width: 20,
+            );
+          },
+        ),
       ),
     );
   }

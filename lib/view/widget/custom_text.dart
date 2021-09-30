@@ -2,20 +2,21 @@ import 'package:flutter/cupertino.dart';
 
 class CustomText extends StatelessWidget {
   final String? text;
-  final double?height;
+  final double? height;
   final double? fontsize;
   final Color? color;
   final Alignment? alignment;
   final FontWeight? fontWeight;
-  final GestureTapCallback?onTap;
-
-   CustomText({
+  final GestureTapCallback? onTap;
+  CustomText({
     Key? key,
     this.text,
     this.fontsize,
     this.color,
     this.alignment = Alignment.topLeft,
-    this.fontWeight, this.onTap, this.height,
+    this.fontWeight,
+    this.onTap,
+    this.height,
   }) : super(key: key);
 
   @override
@@ -23,12 +24,12 @@ class CustomText extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        height:height ,
+        height: height,
         alignment: alignment,
         child: Text(
           text!,
-          style:
-              TextStyle(fontWeight: fontWeight, fontSize: fontsize, color: color),
+          style: TextStyle(
+              fontWeight: fontWeight, fontSize: fontsize, color: color),
         ),
       ),
     );
