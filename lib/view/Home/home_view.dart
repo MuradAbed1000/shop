@@ -18,7 +18,7 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<HomeViewModel>(
-      builder:(controller)=> Scaffold(
+      builder:(controller)=>controller.loading.value?Center(child: CircularProgressIndicator()): Scaffold(
         body: Container(
           padding: const EdgeInsets.only(top: 100, left: 20, right: 20),
           child: ListView(
@@ -143,48 +143,50 @@ class _ListViewCategory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 100,
-      child: ListView.separated(
-        itemCount: nams.length,
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, idex) {
-          return Column(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(50),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.1),
-                      spreadRadius: 5,
-                      blurRadius: 7,
-                      offset: const Offset(0, 1), // changes position of shadow
-                    ),
-                  ],
+    return GetBuilder<HomeViewModel>(
+      builder:(controller)=> Container(
+        height: 100,
+        child: ListView.separated(
+          itemCount: controller.categoryModel.length,
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (context, index) {
+            return Column(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(50),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.1),
+                        spreadRadius: 5,
+                        blurRadius: 7,
+                        offset: const Offset(0, 1), // changes position of shadow
+                      ),
+                    ],
+                  ),
+                  height: 60,
+                  width: 60,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                  child: Image.network('${controller.categoryModel[index].image}'),
+                  ),
                 ),
-                height: 60,
-                width: 60,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Image.asset('assets/images/Icon_Mens Shoe.png'),
+                const SizedBox(
+                  height: 20,
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              CustomText(
-                text: nams[idex],
-              )
-            ],
-          );
-        },
-        separatorBuilder: (BuildContext context, int index) {
-          return const SizedBox(
-            width: 20,
-          );
-        },
+                CustomText(
+                  text: controller.categoryModel[index].name,
+                )
+              ],
+            );
+          },
+          separatorBuilder: (BuildContext context, int index) {
+            return const SizedBox(
+              width: 20,
+            );
+          },
+        ),
       ),
     );
   }
