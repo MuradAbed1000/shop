@@ -2,7 +2,7 @@ import 'package:ecommerceend/helper/extenstion.dart';
 import 'package:flutter/cupertino.dart';
 
 class ProductModel {
-  var name, image, descripation, sized, price;
+  String? productid, name, image, descripation, sized, price;
   Color? color;
   ProductModel(
       {this.name,
@@ -10,7 +10,9 @@ class ProductModel {
       this.descripation,
       this.color,
       this.sized,
-      this.price});
+      this.price,
+      this.productid
+      });
 
   ProductModel.fromJson(Map<dynamic, dynamic> map) {
     if (map == null) {
@@ -22,6 +24,7 @@ class ProductModel {
     color = HexColor.fromHex(map['color']);
     sized = map['sized'];
     price = map['price'];
+    productid = map['productId'];
   }
 
   //cover my data to json
@@ -32,7 +35,8 @@ class ProductModel {
       'descripation': descripation,
       'color': color,
       'sized': sized,
-      'price': price
+      'price': price,
+      'productId': productid
     };
   }
 }

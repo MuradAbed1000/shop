@@ -2,13 +2,14 @@ import 'package:ecommerceend/helper/extenstion.dart';
 import 'package:flutter/cupertino.dart';
 
 class CartProductModel {
-  var name, image, price;
+  var name, image, price,productid;
   int? quantity;
   CartProductModel(
       {this.name,
       this.image,
       this.price,
-      this.quantity});
+      this.quantity,
+      this.productid});
 
   CartProductModel.fromJson(Map<dynamic, dynamic> map) {
     if (map == null) {
@@ -19,6 +20,8 @@ class CartProductModel {
    
     price = map['price'];
     quantity = map['quantity'];
+    productid = map['productid'];
+    
   }
 
   //cover my data to json
@@ -29,7 +32,9 @@ class CartProductModel {
  
       'quantity': quantity,
      
-      'price': price
+      'price': price,
+      'productid': productid
+      
     };
   }
 }

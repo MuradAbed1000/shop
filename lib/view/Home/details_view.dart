@@ -22,7 +22,7 @@ class DetailsView extends StatelessWidget {
                 width: MediaQuery.of(context).size.width,
                 height: 250,
                 child: Image.network(
-                  model!.image,
+                 '${ model!.image}',
                   fit: BoxFit.fill,
                 )),
             SizedBox(
@@ -145,6 +145,7 @@ class DetailsView extends StatelessWidget {
                             image: model!.image,
                             price: model!.price,
                             quantity: 1,
+                            productid: model!.productid
                           ),
                         ),
                         text: 'Add',

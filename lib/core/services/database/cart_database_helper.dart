@@ -26,8 +26,17 @@ class CartDatabaseHelper {
         $columImage TEXT NOT NULL,
         $columPrice TEXT NOT NULL,
         $columQuantity INTEGER NOT NULL,
-      ) ''');
+        $columproductid TEXT NOT NULL)''');
     });
+  }
+
+  Future<List<CartProductModel>> getAllProduct() async {
+    var dbClint = await database;
+    List<Map> maps = await dbClint!.query(tableCartProduct);
+    List<CartProductModel> list = maps.isNotEmpty
+        ? maps.map((Product) => CartProductModel.fromJson(Product)).toList()
+        : [];
+    return list;
   }
 
   insert(CartProductModel model) async {
