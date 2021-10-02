@@ -9,7 +9,7 @@ import 'helper/binding.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  // Get.put(CartViewModel());
+   Get.put(CartViewModel());
   runApp(MyApp());
 }
 

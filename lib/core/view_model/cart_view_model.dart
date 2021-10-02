@@ -23,42 +23,42 @@ class CartViewModel extends GetxController {
     update();
   }
 
+  getTotalPrice() {
+    for (int i = 0; i < _cartProductModel.length; i++) {
+      _totalPrice += double.parse(
+          _cartProductModel[i].price * _cartProductModel[i].quantity);
+
+      print('total price${_totalPrice}');
+      update();
+    }
+  }
+
   addProduct(CartProductModel cartProductModel) async {
-    if (_cartProductModel.length == 0) {
+    for (int i = 0; i < _cartProductModel.length; i++) {
+      if (_cartProductModel[i].productid == cartProductModel.productid) {
+        return;
+      }
+
       var daHelper = CartDatabaseHelper.db;
       await daHelper.insert(cartProductModel);
+      _cartProductModel.add(cartProductModel);
+      _totalPrice +=
+          double.parse(cartProductModel.price * cartProductModel.quantity);
       Get.snackbar(
         "Product Added",
         "You have added the ${cartProductModel.name} to the cart",
         snackPosition: SnackPosition.TOP,
         duration: Duration(seconds: 2),
       );
-    } else {
-      for (int i = 0; i < _cartProductModel.length; i++) {
-        if (_cartProductModel[i].productid == cartProductModel.productid) {
-          return;
-        } else {
-          var daHelper = CartDatabaseHelper.db;
-          await daHelper.insert(cartProductModel);
-          Get.snackbar(
-            "Product Added",
-            "You have added the ${cartProductModel.name} to the cart",
-            snackPosition: SnackPosition.TOP,
-            duration: Duration(seconds: 2),
-          );
-        }
-      }
     }
 
     update();
   }
 
-  getTotalPrice() {
-    for (int i = 0; i < _cartProductModel.length; i++) {
-      _totalPrice +=double.parse(_cartProductModel[i].price* _cartProductModel[i].quantity);
-          
-      print('total price${_totalPrice}');
-      update();
-    }
+  increaseQuantity(int index) {
+    _cartProductModel[index].quantity++;
+    _totalPrice += double.parse(
+        _cartProductModel[index].price * _cartProductModel[index].quantity);
+    update();
   }
 }
