@@ -10,16 +10,15 @@ class CartViewModel extends GetxController {
   List<CartProductModel> get cartProductModel => _cartProductModel;
   num get totalPrice => _totalPrice;
   num _totalPrice = 0.0;
+  var dbHelper = CartDatabaseHelper.db;
   CartViewModel() {
     getAllProduct();
   }
   getAllProduct() async {
     _loading.value = true;
-    var dbHelper = CartDatabaseHelper.db;
     _cartProductModel = await dbHelper.getAllProduct();
     print(_cartProductModel.length);
     _loading.value = false;
-    getTotalPrice();
     update();
   }
 
@@ -34,22 +33,28 @@ class CartViewModel extends GetxController {
   }
 
   addProduct(CartProductModel cartProductModel) async {
+    if(_cartProductModel.length==0){
+      await dbHelper.insert(cartProductModel);
+        Get.snackbar(
+          "Product Added",
+          "You have added the ${cartProductModel.name} to the cart",
+          snackPosition: SnackPosition.TOP,
+          duration: Duration(seconds: 2),
+        );
+        update();
+    }else{
     for (int i = 0; i < _cartProductModel.length; i++) {
       if (_cartProductModel[i].productid == cartProductModel.productid) {
         return;
+      } else {
+        await dbHelper.insert(cartProductModel);
+        Get.snackbar(
+          "Product Added",
+          "You have added the ${cartProductModel.name} to the cart",
+          snackPosition: SnackPosition.TOP,
+          duration: Duration(seconds: 2),
+        );}
       }
-
-      var daHelper = CartDatabaseHelper.db;
-      await daHelper.insert(cartProductModel);
-      _cartProductModel.add(cartProductModel);
-      _totalPrice +=
-          double.parse(cartProductModel.price * cartProductModel.quantity);
-      Get.snackbar(
-        "Product Added",
-        "You have added the ${cartProductModel.name} to the cart",
-        snackPosition: SnackPosition.TOP,
-        duration: Duration(seconds: 2),
-      );
     }
 
     update();
@@ -57,8 +62,15 @@ class CartViewModel extends GetxController {
 
   increaseQuantity(int index) {
     _cartProductModel[index].quantity++;
-    _totalPrice += double.parse(
-        _cartProductModel[index].price * _cartProductModel[index].quantity);
+    _totalPrice += double.parse(_cartProductModel[index].price);
+    dbHelper.updateProduct(cartProductModel[index]);
+    update();
+  }
+
+  DecreaseQuantity(int index) {
+    _cartProductModel[index].quantity--;
+    _totalPrice -= double.parse(_cartProductModel[index].price);
+    dbHelper.updateProduct(cartProductModel[index]);
     update();
   }
 }

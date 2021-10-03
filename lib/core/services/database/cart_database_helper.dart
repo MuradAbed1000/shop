@@ -1,4 +1,5 @@
 import 'package:ecommerceend/model/cart_product_model.dart';
+import 'package:ecommerceend/model/porduct_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -9,11 +10,9 @@ class CartDatabaseHelper {
   static final CartDatabaseHelper db = CartDatabaseHelper._();
   static Database? _database;
   Future<Database?> get database async {
-    if (_database != null) {
-      return _database;
-    } else {
-      _database = await initdb();
-    }
+    if (_database != null) return _database;
+
+    _database = await initdb();
     return _database;
   }
 
@@ -46,5 +45,11 @@ class CartDatabaseHelper {
       model.toJson(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
+  }
+
+  updateProduct(CartProductModel model) async {
+    var dbClient = await database;
+    return await dbClient!.update(tableCartProduct, model.toJson(),
+        where: '$columproductid= ?', whereArgs: [model.productid]);
   }
 }

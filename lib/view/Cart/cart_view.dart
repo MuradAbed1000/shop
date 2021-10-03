@@ -17,7 +17,7 @@ class CartView extends StatelessWidget {
         children: [
           Expanded(
             child: GetBuilder<CartViewModel>(
-              init:CartViewModel(),
+              init: CartViewModel(),
               builder: (controller) => Container(
                 child: ListView.separated(
                   itemBuilder: (context, index) {
@@ -52,39 +52,50 @@ class CartView extends StatelessWidget {
                                   SizedBox(
                                     height: 20,
                                   ),
-                                  Container(
-                                      width: 140,
-                                      height: 40,
-                                      color: Colors.grey.shade200,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Icon(
-                                            Icons.add,
-                                            color: Colors.black,
-                                          ),
-                                          SizedBox(
-                                            width: 20,
-                                          ),
-                                          CustomText(
-                                            alignment: Alignment.center,
-                                            text: '1',
-                                            fontsize: 20,
-                                            color: Colors.black,
-                                          ),
-                                          SizedBox(
-                                            width: 20,
-                                          ),
-                                          Container(
-                                              padding:
-                                                  EdgeInsets.only(bottom: 20),
-                                              child: Icon(
-                                                Icons.minimize,
-                                                color: Colors.black,
-                                              )),
-                                        ],
-                                      ))
+                                  GestureDetector(
+                                    onTap: () {
+                                      controller.increaseQuantity(index);
+                                    },
+                                    child: Container(
+                                        width: 140,
+                                        height: 40,
+                                        color: Colors.grey.shade200,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              Icons.add,
+                                              color: Colors.black,
+                                            ),
+                                            SizedBox(
+                                              width: 20,
+                                            ),
+                                            CustomText(
+                                              alignment: Alignment.center,
+                                              text: controller.cartProductModel[index].quantity.toString(),
+                                              fontsize: 20,
+                                              color: Colors.black,
+                                            ),
+                                            SizedBox(
+                                              width: 20,
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                controller.DecreaseQuantity(
+                                                    index);
+                                              },
+                                              child: Container(
+                                                  padding: EdgeInsets.only(
+                                                      bottom: 20),
+                                                  child: Icon(
+                                                    Icons.minimize,
+                                                    color: Colors.black,
+                                                  )),
+                                            ),
+                                          ],
+                                        )),
+                                  )
                                 ],
                               ),
                             )
@@ -117,7 +128,7 @@ class CartView extends StatelessWidget {
                       height: 15,
                     ),
                     GetBuilder<CartViewModel>(
-                      init: CartViewModel(),
+                        init: CartViewModel(),
                         builder: (controller) => CustomText(
                               text: '\$${controller.totalPrice}',
                               fontsize: 18,
