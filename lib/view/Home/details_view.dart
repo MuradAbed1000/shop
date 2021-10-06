@@ -9,8 +9,13 @@ import 'package:get/get.dart';
 
 class DetailsView extends StatelessWidget {
   ProductModel? model;
+  int index;
 
-  DetailsView({this.model});
+  DetailsView({
+    Key? key,
+    this.model,
+    required this.index
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +27,7 @@ class DetailsView extends StatelessWidget {
                 width: MediaQuery.of(context).size.width,
                 height: 250,
                 child: Image.network(
-                 '${ model!.image}',
+                  '${model!.image}',
                   fit: BoxFit.fill,
                 )),
             SizedBox(
@@ -139,15 +144,7 @@ class DetailsView extends StatelessWidget {
                       height: 100,
                       padding: EdgeInsets.all(20),
                       child: CoustomButtonSgin(
-                        onPressed:()=> controller.addProduct(
-                          CartProductModel(
-                            name: model!.name,
-                            image: model!.image,
-                            price: model!.price,
-                            quantity: 1,
-                            productid: model!.productid
-                          ),
-                        ),
+                        onPressed: () => controller.addProduct(ProductModel.products[index]),
                         text: 'Add',
                       ),
                     ),

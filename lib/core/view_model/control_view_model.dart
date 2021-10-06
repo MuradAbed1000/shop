@@ -22,7 +22,7 @@ class ControlViewModel extends GetxController {
         break;
       case 1:
         {
-          _currentScreen = CartView();
+         _currentScreen = CartView();
         }
         break;
       case 2:

@@ -1,6 +1,7 @@
 import 'package:ecommerceend/constance.dart';
 import 'package:ecommerceend/core/view_model/control_view_model.dart';
 import 'package:ecommerceend/core/view_model/home_view_model.dart';
+import 'package:ecommerceend/model/porduct_model.dart';
 import 'package:ecommerceend/view/widget/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -66,8 +67,9 @@ class HomeView extends StatelessWidget {
 }
 
 class _ListViewProducts extends StatelessWidget {
-  const _ListViewProducts({
+  _ListViewProducts({
     Key? key,
+ 
     required this.nams,
   }) : super(key: key);
 
@@ -78,13 +80,14 @@ class _ListViewProducts extends StatelessWidget {
       builder: (controller) => Container(
         height: 350,
         child: ListView.separated(
-          itemCount: controller.productModel.length,
+          itemCount: ProductModel.products.length,
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index) {
             return GestureDetector(
               onTap: () {
                 Get.to(DetailsView(
-                  model: controller.productModel[index],
+                  index: index,
+                  model: ProductModel.products[index],
                 ));
               },
               child: Container(
@@ -99,7 +102,7 @@ class _ListViewProducts extends StatelessWidget {
                           height: 190,
                           width: MediaQuery.of(context).size.width * .4,
                           child: Image.network(
-                            '${controller.productModel[index].image}',
+                            '${ProductModel.products[index].image}',
                             fit: BoxFit.fill,
                           )),
                     ),
@@ -107,14 +110,14 @@ class _ListViewProducts extends StatelessWidget {
                       height: 10,
                     ),
                     CustomText(
-                      text: controller.productModel[index].name,
+                      text: ProductModel.products[index].name,
                       alignment: Alignment.bottomLeft,
                     ),
                     SizedBox(
                       height: 10,
                     ),
                     CustomText(
-                      text: controller.productModel[index].descripation,
+                      text: ProductModel.products[index].descripation,
                       alignment: Alignment.bottomLeft,
                       color: Colors.grey,
                       maxLine: 1,
@@ -124,7 +127,7 @@ class _ListViewProducts extends StatelessWidget {
                       height: 20,
                     ),
                     CustomText(
-                      text: '\$ ${controller.productModel[index].price}',
+                      text: '\$ ${ProductModel.products[index].price}',
                       alignment: Alignment.bottomLeft,
                       color: primaryColor,
                       fontsize: 18,
